@@ -76,18 +76,17 @@ void randomly_seed(int *cell, int num_cells) {
 void update(int *cell, int *new_cell, int n_cells) {
     int i, *left, *right;
 
-    left = cell;
-    cell++;
-    right = cell + 1;
+    /* Initialize pointers start cell and new_cell at index 1.*/
+    left = cell;        /* cell[i-1] */
+    cell++;             /* cell[i] */
+    right = cell + 1;   /* cell[i+1] */
+    new_cell++;         
 
     for(i = 1; i < n_cells - 1; i++) {
-        /* If empty and only one filled, adjacent cell */
-        if (*cell == 0 && (*left != *right)) {
-            *new_cell = 1;
-        }
-        else {
-            *new_cell = 0;
-        }
+        /* If empty and only one filled, adjacent cell set to 1, otherwise 0 */
+        *new_cell = (*cell == 0) && (*left != *right);
+
+        /* Increment all pointers */
         left++;
         cell++;
         right++;

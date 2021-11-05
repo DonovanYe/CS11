@@ -77,13 +77,8 @@ void produce_generation(int *cell, int *new_cell, int n_cells) {
     int i;
 
     for(i = 1; i < n_cells - 1; i++) {
-        /* If empty and only one filled, adjacent cell */
-        if (cell[i] == 0 && (cell[i - 1] != cell[i + 1])) {
-            new_cell[i] = 1;
-        }
-        else {
-            new_cell[i] = 0;
-        }
+        /* If empty and only one filled, adjacent cell set to 1, otherwise 0 */
+        new_cell[i] = (cell[i] == 0 && (cell[i - 1] != cell[i + 1]));
     }
 }
 
