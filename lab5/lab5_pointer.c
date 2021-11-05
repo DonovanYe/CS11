@@ -74,7 +74,7 @@ void randomly_seed(int *cell, int num_cells) {
  * return: void, overwrites "new_cell"
  */
 void update(int *cell, int *new_cell, int n_cells) {
-    int i, *left, *current, *right, *new;
+    int i, *left, *right;
 
     left = cell;
     cell++;
@@ -82,14 +82,14 @@ void update(int *cell, int *new_cell, int n_cells) {
 
     for(i = 1; i < n_cells - 1; i++) {
         /* If empty and only one filled, adjacent cell */
-        if (*current == 0 && (*left != *right)) {
-            *cell = 1;
+        if (*cell == 0 && (*left != *right)) {
+            *new_cell = 1;
         }
         else {
-            *cell = 0;
+            *new_cell = 0;
         }
         left++;
-        current++;
+        cell++;
         right++;
         new_cell++;
     }
