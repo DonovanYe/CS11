@@ -25,7 +25,6 @@
 #include "triangle_routines.h"
 
 #define NMOVES 36   /* Number of possible moves */
-#define NHOLES 15   /* Number of holes in the board */
 
 /* All possible moves that can be made in the triangle game */
 int moves[NMOVES][3] = {
@@ -54,9 +53,6 @@ int moves[NMOVES][3] = {
  * ---------------------------------------------------------------------------
  */
 
-/* Checks if the contents of two int arrays are the same.  */
-int int_arrays_equal(int a[], int b[], int size_a, int size_b);
-
 /* Return the number of pegs on the board. */
 int npegs(int board[]);
 
@@ -82,33 +78,6 @@ int solve(int board[]);
  * ---------------------------------------------------------------------------
  */
 
-/*
- * int_arrays_equal: Checks if the contents of two integer arrays are the same.
- * args: int a[]: the first array to check
- *         int b[]: the second array to check
- *        int size_a: the size of the first array
- *        int size_b: the size of the second array
- * return: int: 1 if they are they same, 0 otherwise
- */
-int int_arrays_equal(int a[], int b[], int size_a, int size_b) {
-    int i;
-
-    /* If the sizes don't match, the contents will never match. */
-    if (size_a != size_b) {
-        return 0;
-    }
-
-    /* Check each corresponding index for equality */
-    for(i = 0; i < size_a; i++) {
-        if (a[i] != b[i]) {
-            return 0;
-        }
-    }
-
-    return 1;
-}
-
-
 /*  
  *  npegs: Gets the number of pegs on the board.
  *  args: int board[]: the game board as an int[15]; where 1 means there's a
@@ -121,7 +90,7 @@ int npegs(int board[]) {
 
     /* Loop through the board and summing elements since 1=peg, 0=empty. */
     pegs = 0;
-    for(i = 0; i < NHOLES; i++) {
+    for(i = 0; i < BOARD_SIZE; i++) {
         pegs += board[i];
     }
 
@@ -130,29 +99,22 @@ int npegs(int board[]) {
 
 /*  
  *  valid_move: Checks if a move is valid in a given board.
- *  args: int board[]: the game board as an int[15]; where 1 means there's a
-                        peg and 0 means that the space is empty
-          int move[]: array of three ints that represent the move to be checked
+ *  args: int board[]: the game board as an int[BOARD_SIZE]; 
+ *                      where 1 means there's a
+ *                      peg and 0 means that the space is empty
+ *        int move[]: array of three ints that represent the move to be checked
  *  return: int: 1 if the move is valid, 0 if the move is invalid
  */
 int valid_move(int board[], int move[]) {
-    int i;
-    
-    /* Check if the move is a valid move in general */
-    for (i = 0; i < NMOVES; i++) {
-        if (int_arrays_equal(move, moves[i], NHOLES, NHOLES)) {
-            /* Check for pegs in the first two holes, but empty in the last. */
-            return board[move[0]] == 1 && \
-                    board[move[1]] == 1 && \
-                    board[move[2]] == 0;
-        }
-    }
-
-    return 0;
+    /* Check for pegs in the first two holes, but empty in the last. */
+    return board[move[0]] == 1 && \
+            board[move[1]] == 1 && \
+            board[move[2]] == 0;
 }
 
 /* make_move: Make this move on this board. 
- *  args: int board[]: the game board as an int[15]; where 1 means there's a
+ *  args: int board[]: the game board as an int[BOARD_SIZE]; 
+ *                       where 1 means there's a
  *                       peg and 0 means that the space is empty
  *        int move[]: the array of three ints that represents the move
  * return: void; changes the board array in place         
@@ -168,7 +130,8 @@ void make_move(int board[], int move[]) {
 }
 
 /* make_move: Unmake this move on this board. 
- *  args: int board[]: the game board as an int[15]; where 1 means there's a
+ *  args: int board[]: the game board as an int[BOARD_SIZE]; 
+ *                       where 1 means there's a
  *                       peg and 0 means that the space is empty
  *        int move[]: the array of three ints that represents the move
  * return: void; changes the board array in place         
@@ -185,7 +148,8 @@ void unmake_move(int board[], int move[]) {
 
 /*
  * solve: Solve the game starting from this board, if it can be solved.  
- * args: int board[]: the game board as an int[15]; where 1 means there's a
+ * args: int board[]: the game board as an int[BOARD_SIZE]; 
+ *                       where 1 means there's a
  *                       peg and 0 means that the space is empty
  * return: Return 1 if the game can be solved; otherwise return 0.  
  *         Does alter the board passed in. 
@@ -244,7 +208,7 @@ int solve(int board[]) {
 
 int main(void)
 {
-    int board[BOARD_SIZE];  /* Declare board with 15 empty holes */
+    int board[BOARD_SIZE];  /* Declare board with BOARD_SIZE empty holes */
     int solvable;           /* Boolean for whether the board is solvable */
 
     triangle_input(board);  /* Fill in the board with pegs */
