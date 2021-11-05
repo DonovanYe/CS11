@@ -53,7 +53,7 @@ void handle_null_allocaction(void *ptr);
 void randomly_seed(int *cell, int num_cells) {
     int i;
 
-    /* Seed random with time.*/
+    /* Seed random with time. */
     srand(time(0));
 
     /* Fill each index with 0 or 1. */
@@ -78,7 +78,7 @@ void produce_generation(int *cell, int *new_cell, int n_cells) {
 
     for(i = 1; i < n_cells - 1; i++) {
         /* If empty and only one filled, adjacent cell */
-        if (cell[i] == 0 && (cell[i-1] != cell[i+1])) {
+        if (cell[i] == 0 && (cell[i - 1] != cell[i + 1])) {
             new_cell[i] = 1;
         }
         else {
@@ -131,7 +131,7 @@ void compute_automata(n_cells, n_gens) {
     new_cell = (int *)calloc(n_cells, sizeof(int));
     handle_null_allocaction((void *)new_cell);
 
-    /* Seed the original cells, and print them to output.*/
+    /* Seed the original cells, and print them to output. */
     randomly_seed(cell, n_cells);
     print_cells(cell, n_cells);
 
