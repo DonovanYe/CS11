@@ -34,15 +34,13 @@ node *quicksort(node *list);
  * return: node *: pionter to head of the sorted list
  */
 node *quicksort(node *list) {
-    node *pivot;        /* copy of the first node to act as a pivot */
-    node *curr;         /* pointer to node for scanning */
-
-    node *high;         /* pointer to list of values greater than the pivot */ 
-    node *low;          /* pointer to list of values less than the pivot */
-    node *sorted_high;  /* pointer to sorted values greater than the pivot */
-    node *sorted_low;   /* pointer to sorted values less than the pivot */
-
-    node *sorted;       /* pointer to sorted list to return */
+    node *pivot,    /* copy of the first node to act as a pivot */
+    *curr,          /* pointer to node for scanning */
+    *high,          /* pointer to list of values greater than the pivot */ 
+    *low,           /* pointer to list of values less than the pivot */
+    *sorted_high,   /* pointer to sorted values greater than the pivot */
+    *sorted_low,    /* pointer to sorted values less than the pivot */
+    *sorted;        /* pointer to sorted list to return */
 
     /* If list has zero nodes or one node, copy the list as-is and return. */
     if (!list || list->next == NULL) {
@@ -60,8 +58,10 @@ node *quicksort(node *list) {
     low = NULL;
     while (curr != NULL) {
         if (curr->data > pivot->data) {
+            /* Greater than */
             high = create_node(curr->data, high);
         } else {
+            /* Less than or equal to */
             low = create_node(curr->data, low);
         }
         curr = curr->next;
