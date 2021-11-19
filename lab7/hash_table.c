@@ -83,6 +83,7 @@ void free_list(node *list)
         temp = list;
         list = list->next;
 
+        free(temp->key);
         free(temp);
     }
 }
@@ -209,6 +210,7 @@ void set_value(hash_table *ht, char *key, int value)
         new_node = create_node(key, value);
         new_node->next = ht->slot[hash_key];
         ht->slot[hash_key] = new_node;
+        return;
     }
 
     /* If the pointer to the hash table doesn't exist, are probably still
