@@ -32,7 +32,7 @@ int hash(char *s)
     int sum = 0;
     while (*s) {
         sum += (int) (*s);
-        c++;
+        s++;
     }
 
     return sum % NSLOTS;
@@ -114,8 +114,8 @@ hash_table *create_hash_table()
 
     /* Allocate array of linked lists in hash table */
     /* Initialize all pointers to 0 = NULL. */
-    ht->slots = (node **) calloc(NSLOTS, sizeof(node *));
-    if (ht->slots == NULL) {
+    ht->slot = (node **) calloc(NSLOTS, sizeof(node *));
+    if (ht->slot == NULL) {
         fprintf(stderr, "Fatal error: out of memory. "
                 "Terminating program.\n");
         exit(1);
@@ -140,10 +140,10 @@ void free_hash_table(hash_table *ht)
         /* Iterate through slots in hash table. */
         for(i = 0; i < NSLOTS; i++) {
             /* Each slot is a linked list. */
-            free_list(ht->slots[i]);
+            free_list(ht->slot[i]);
         }
         
-        free(ht->slots);
+        free(ht->slot);
         free(ht);
     }
 }
@@ -164,7 +164,7 @@ int get_value(hash_table *ht, char *key)
 
     if (ht != NULL) {
         /* Iterate through the linked list. */
-        curr = ht->slots[hash(key)];
+        curr = ht->slot[hash(key)];
         while (curr != NULL) {
             if (strcmp(key, curr->key) == 0) {
                 return curr->value;
@@ -197,7 +197,7 @@ void set_value(hash_table *ht, char *key, int value)
     hash_key = hash(key);
     if (ht != NULL) {
         /* Iterate through the linked list. */
-        curr = ht->slots[hash_key];
+        curr = ht->slot[hash_key];
         while (curr != NULL) {
             if (strcmp(key, curr->key) == 0) {
                 curr->value = value;
@@ -208,8 +208,8 @@ void set_value(hash_table *ht, char *key, int value)
         }
 
         new_node = create_node(key, value);
-        new_node->next = ht->slots[hash_key];
-        ht->slots[hash_key] = new_node;
+        new_node->next = ht->slot[hash_key];
+        ht->slot[hash_key] = new_node;
     }
 
     /* If the pointer to the hash table doesn't exist, are probably still
@@ -234,7 +234,7 @@ void print_hash_table(hash_table *ht)
     if (ht != NULL) {
         /* Iterate through slots in the hash table. */
         for (i = 0; i < NSLOTS; i++) {
-            curr = ht->slots[i];
+            curr = ht->slot[i];
             /* Iterate through the linked lists in each slot. */
             while (curr != NULL) {
                 /* Print each key : value pair. */
