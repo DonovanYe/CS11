@@ -83,7 +83,6 @@ void free_list(node *list)
         temp = list;
         list = list->next;
 
-        free(temp->key);
         free(temp);
     }
 }
@@ -238,7 +237,7 @@ void print_hash_table(hash_table *ht)
             /* Iterate through the linked lists in each slot. */
             while (curr != NULL) {
                 /* Print each key : value pair. */
-                printf("%s %d", curr->key, curr->value);
+                printf("%s %d\n", curr->key, curr->value);
                 curr = curr->next;
             }
         }
