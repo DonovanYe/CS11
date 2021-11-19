@@ -210,12 +210,12 @@ void set_value(hash_table *ht, char *key, int value)
         new_node = create_node(key, value);
         new_node->next = ht->slot[hash_key];
         ht->slot[hash_key] = new_node;
-        return;
     }
-
-    /* If the pointer to the hash table doesn't exist, are probably still
-     * expected to free the key because that is what is usually done. */
-    free(key);
+    else {
+        /* If the pointer to the hash table doesn't exist, are probably still
+        * expected to free the key because that is what is usually done. */
+        free(key);
+    }
 }
 
 
