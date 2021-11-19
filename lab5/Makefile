@@ -5,7 +5,7 @@
 CC = gcc
 CFLAGS = -g -Wall -Wstrict-prototypes -ansi -pedantic -Wuninitialized
 
-lab5: lab5_array lab5_pointer
+all: lab5_array lab5_pointer
 
 memcheck.o: memcheck.c memcheck.h
 	$(CC) $(CFLAGS) -c memcheck.c
