@@ -121,7 +121,7 @@ hash_table *create_hash_table()
         exit(1);
     }
 
-    return hash;
+    return ht;
 }
 
 
@@ -244,4 +244,3 @@ void print_hash_table(hash_table *ht)
         }
     }
 }
-
