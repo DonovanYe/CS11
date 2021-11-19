@@ -33,7 +33,7 @@ void update(int *cell, int *new_cells, int n_cells);
 /* Output a state of the automata with corresponding characters. */
 void print_cells(int *cell, int n_cells);
 /* Compute all generations of the automata and print result. */
-void compute_automata(int n_cells, int n_gens);
+void compute_automata(int *cell, int n_cells, int n_gens);
 /* Prints usage statement to stderr. */
 void print_usage_statement(char *program_name);
 /* Handle the case where malloc/calloc returns NULL */
@@ -123,16 +123,13 @@ void print_cells(int *cells, int n_cells) {
 
 /*
  * compute_automata: Runs the all the generations and prints them out
- * args: int n_cells: number of cells in the automata
-         int n_gens: number of generations to compute
+ * args: int *cell: primary cell array basis for "original" generation
+ *       int n_cells: number of cells in the automata
+ *       int n_gens: number of generations to compute
  * return: void, prints generations (including gen 0) to output.
  */
-void compute_automata(n_cells, n_gens) {
-    int *cell, *new_cell, i, *temp;
-
-    /* Allocate memory for "original" cells. */
-    cell = (int *)calloc(n_cells, sizeof(int));
-    handle_null_allocaction((void *)cell);
+void compute_automata(int *cell, int n_cells, int n_gens) {
+    int *new_cell, i, *temp;
 
     /* Allocate memory for new generation of cells. */
     new_cell = (int *)calloc(n_cells, sizeof(int));
@@ -154,7 +151,6 @@ void compute_automata(n_cells, n_gens) {
     }
 
     /* Free allocated memory. */
-    free(cell);
     free(new_cell);
 }
 
@@ -184,6 +180,7 @@ void handle_null_allocaction(void *ptr) {
 
 int main(int argc, char *argv[]) {
     int n_cells, n_gens;
+    int *cell;
 
     /* If there are fewer than 3 arguments, (program, number of cells, and 
      * number of generations), there this is an incorrect use of the program. */
@@ -202,8 +199,15 @@ int main(int argc, char *argv[]) {
         exit(1);
     }
 
+    /* Allocate memory for "original" cells. */
+    cell = (int *)calloc(n_cells, sizeof(int));
+    handle_null_allocaction((void *)cell);
+
     /* Run the automata. */
-    compute_automata(n_cells, n_gens);
+    compute_automata(cell, n_cells, n_gens);
+
+    /* Free allocated memory. */
+    free(cell);
 
     /* Check for memory leaks. */
     print_memory_leaks();
