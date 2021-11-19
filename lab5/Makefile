@@ -26,4 +26,4 @@ check:
 	./../c_style_check lab5_array.c lab5_pointer.c
 
 clean:
-	rm -f *.o lab5_array lab5_pointer memcheck
+	rm -f *.o lab5_array lab5_pointer
